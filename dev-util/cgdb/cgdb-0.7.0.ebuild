@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -25,7 +25,10 @@ COMMONDEPEND="
 	sys-libs/readline:0="
 
 DEPEND="${COMMONDEPEND}
-	test? ( dev-util/dejagnu )"
+	test? (
+		dev-util/dejagnu
+		app-misc/dtach
+	)"
 
 RDEPEND="
 	${COMMONDEPEND}
@@ -36,6 +39,22 @@ DOCS=( AUTHORS ChangeLog FAQ INSTALL NEWS README.md )
 src_prepare() {
 	default
 	./autogen.sh || die
+}
+
+multilib_src_test() {
+	# Tests need an interactive shell, #654986
+
+	# real-time output of the log ;-)
+	touch "${T}/dtach-test.log" || die
+	tail -f "${T}/dtach-test.log" &
+	local tail_pid=${!}
+
+	nonfatal dtach -N "${T}/dtach.sock" \
+		bash -c 'emake check &> "${T}"/dtach-test.log; echo ${?} > "${T}"/dtach-test.out'
+
+	kill "${tail_pid}"
+	[[ -f ${T}/dtach-test.out ]] || die "Unable to run tests"
+	[[ $(<"${T}"/dtach-test.out) == 0 ]] || die "Tests failed"
 }
 
 multilib_src_configure() {
