@@ -64,8 +64,8 @@ unset ADDONS_SRC
 LO_EXTS="nlpsolver scripting-beanshell scripting-javascript wiki-publisher"
 
 IUSE="bluetooth +branding coinmp +cups dbus debug eds firebird googledrive
-gstreamer +gtk gtk2 jemalloc kde libressl mysql odk pdfimport postgres test vlc
-$(printf 'libreoffice_extensions_%s ' ${LO_EXTS})"
+gstreamer +gtk gtk2 jemalloc kde ldap libressl mysql odk pdfimport postgres
+test vlc $(printf 'libreoffice_extensions_%s ' ${LO_EXTS})"
 
 LICENSE="|| ( LGPL-3 MPL-1.1 )"
 SLOT="0"
@@ -169,6 +169,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 		kde-frameworks/kwindowsystem:5
 	)
 	jemalloc? ( dev-libs/jemalloc )
+	ldap? ( net-nds/openldap )
 	libreoffice_extensions_scripting-beanshell? ( dev-java/bsh )
 	libreoffice_extensions_scripting-javascript? ( dev-java/rhino:1.6 )
 	mysql? ( dev-db/mysql-connector-c++ )
@@ -315,6 +316,9 @@ src_unpack() {
 
 src_prepare() {
 	default
+
+	# Disable the LDAP backend extension used in Base
+	! use ldap && eapply "${FILESDIR}/${PN}-6.0.5.2-no-openldap.patch"
 
 	# sandbox violations on many systems, we don't need it. Bug #646406
 	sed -i \
