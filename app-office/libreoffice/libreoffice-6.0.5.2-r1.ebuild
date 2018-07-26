@@ -64,7 +64,7 @@ unset ADDONS_SRC
 LO_EXTS="nlpsolver scripting-beanshell scripting-javascript wiki-publisher"
 
 IUSE="bluetooth +branding coinmp +cups dbus debug eds firebird googledrive
-gstreamer +gtk gtk2 jemalloc kde mysql odk pdfimport postgres test vlc
+gstreamer +gtk gtk2 jemalloc kde ldap mysql odk pdfimport postgres test vlc
 $(printf 'libreoffice_extensions_%s ' ${LO_EXTS})"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
@@ -133,7 +133,6 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	media-libs/libzmf
 	net-libs/neon
 	net-misc/curl
-	net-nds/openldap
 	sci-mathematics/lpsolve
 	sys-libs/zlib:=
 	virtual/glu
@@ -182,6 +181,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 		kde-frameworks/kio:5
 		kde-frameworks/kwindowsystem:5
 	)
+	ldap? ( net-nds/openldap )
 	libreoffice_extensions_scripting-beanshell? ( dev-java/bsh )
 	libreoffice_extensions_scripting-javascript? ( dev-java/rhino:1.6 )
 	mysql? ( dev-db/mysql-connector-c++ )
@@ -310,6 +310,9 @@ src_unpack() {
 
 src_prepare() {
 	default
+
+	# Disable the LDAP backend extension used in Base
+	! use ldap && eapply "${FILESDIR}/${PN}-6.0.5.2-no-openldap.patch"
 
 	# sandbox violations on many systems, we don't need it. Bug #646406
 	sed -i \
