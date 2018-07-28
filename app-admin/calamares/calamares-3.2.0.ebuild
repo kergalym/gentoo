@@ -20,7 +20,7 @@ IUSE="+networkmanager pythonqt +upower"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND="${PYTHON_DEPS}
+COMMON_DEPEND="${PYTHON_DEPS}
 	$(add_frameworks_dep kconfig)
 	$(add_frameworks_dep kcoreaddons)
 	$(add_frameworks_dep kcrash)
@@ -36,7 +36,7 @@ DEPEND="${PYTHON_DEPS}
 	$(add_qt_dep qtwidgets)
 	$(add_qt_dep qtxml)
 	dev-cpp/yaml-cpp:=
-	>=dev-libs/boost-1.55:=[${PYTHON_USEDEP}]
+	>=dev-libs/boost-1.55:=[python,${PYTHON_USEDEP}]
 	dev-libs/libpwquality[${PYTHON_USEDEP}]
 	sys-apps/dbus
 	sys-apps/dmidecode
@@ -45,7 +45,7 @@ DEPEND="${PYTHON_DEPS}
 	pythonqt? ( >=dev-python/PythonQt-3.1:=[${PYTHON_USEDEP}] )
 "
 
-RDEPEND="${DEPEND}
+RDEPEND="${COMMON_DEPEND}
 	app-admin/sudo
 	dev-libs/libatasmart
 	net-misc/rsync
@@ -56,6 +56,10 @@ RDEPEND="${DEPEND}
 	virtual/udev
 	networkmanager? ( net-misc/networkmanager )
 	upower? ( sys-power/upower )
+"
+
+DEPEND="${COMMON_DEPEND}
+	$(add_qt_dep linguist-tools)
 "
 
 src_prepare() {
@@ -76,6 +80,8 @@ src_configure() {
 	kde5_src_configure
 	sed -i -e 's:pkexec /usr/bin/calamares:calamares-pkexec:' "${S}"/calamares.desktop
 	sed -i -e 's:Icon=calamares:Icon=drive-harddisk:' "${S}"/calamares.desktop
+	sed -i -e 's:etc/default:etc/env.d:' "${S}"/src/modules/localecfg/main.py
+	sed -i -e 's:"locale":"02locale":' "${S}"/src/modules/localecfg/main.py
 }
 
 src_install() {
