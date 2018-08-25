@@ -5,7 +5,7 @@ EAPI="6"
 
 DESCRIPTION="Relax-and-Recover is a setup-and-forget bare metal disaster recovery solution"
 HOMEPAGE="http://relax-and-recover.org/"
-SRC_URI="mirror://sourceforge/project/${PN}/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
