@@ -3,39 +3,40 @@
 
 EAPI=6
 PYTHON_COMPAT=( python2_7 )
-inherit autotools bash-completion-r1 eutils fixheadtails multilib user systemd flag-o-matic toolchain-funcs python-single-r1
+inherit autotools bash-completion-r1 fixheadtails user systemd flag-o-matic toolchain-funcs python-single-r1
 
 MY_P=${P/_/-}
 
 DESCRIPTION="Network-UPS Tools"
-HOMEPAGE="http://www.networkupstools.org/"
+HOMEPAGE="https://www.networkupstools.org/"
 # Nut mirrors are presently broken
-SRC_URI="http://random.networkupstools.org/source/${PV%.*}/${MY_P}.tar.gz
-	 http://www.networkupstools.org/source/${PV%.*}/${MY_P}.tar.gz"
+SRC_URI="https://networkupstools.org/source/${PV%.*}/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86 ~x86-fbsd"
 
 IUSE="cgi gui ipmi snmp +usb selinux ssl tcpd xml zeroconf"
-CDEPEND="
+REQUIRED_USE="gui? ( ${PYTHON_REQUIRED_USE} )"
+
+CDEPEND="dev-libs/libltdl:*
+	virtual/udev
 	cgi? ( >=media-libs/gd-2[png] )
-	gui? ( dev-python/pygtk )
+	gui? ( dev-python/pygtk[${PYTHON_USEDEP}] )
+	ipmi? ( sys-libs/freeipmi )
 	snmp? ( net-analyzer/net-snmp )
-	usb? ( virtual/libusb:0 )
 	ssl? ( >=dev-libs/openssl-1 )
 	tcpd? ( sys-apps/tcp-wrappers )
+	usb? ( virtual/libusb:0= )
 	xml? ( >=net-libs/neon-0.25.0 )
-	ipmi? ( sys-libs/freeipmi )
-	zeroconf? ( net-dns/avahi )
-	dev-libs/libltdl:*
-	virtual/udev"
+	zeroconf? ( net-dns/avahi )"
+
 DEPEND="$CDEPEND
-	>=sys-apps/sed-4
-	virtual/pkgconfig"
+	virtual/pkgconfig
+	>=sys-apps/sed-4"
+
 RDEPEND="${CDEPEND}
-	selinux? ( sec-policy/selinux-nut )
-"
+	selinux? ( sec-policy/selinux-nut )"
 
 S=${WORKDIR}/${MY_P}
 
@@ -76,6 +77,11 @@ NUT_PRIVATE_FILES="/etc/nut/{upsd.conf,upsd.users,upsmon.conf}"
 # public files should be 644 root:root, only installed if USE=cgi
 NUT_CGI_FILES="/etc/nut/{{hosts,upsset}.conf,upsstats{,-single}.html}"
 
+PATCHES=(
+	"${FILESDIR}/nut-2.7.2/nut-2.7.2-no-libdummy.patch"
+	"${FILESDIR}/${PN}-2.7.1-snmpusb-order.patch"
+)
+
 pkg_setup() {
 	enewgroup nut 84
 	enewuser nut 84 -1 /var/lib/nut nut,uucp
@@ -89,10 +95,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	default
 
-	epatch "${FILESDIR}/nut-2.7.2/nut-2.7.2-no-libdummy.patch"
-	epatch "${FILESDIR}"/${PN}-2.6.2-lowspeed-buffer-size.patch
-	epatch "${FILESDIR}"/${PN}-2.7.1-snmpusb-order.patch
+	epatch "${FILESDIR}/${PN}-2.6.2-lowspeed-buffer-size.patch"
 
 	sed -e "s:GD_LIBS.*=.*-L/usr/X11R6/lib \(.*\) -lXpm -lX11:GD_LIBS=\"\1:" \
 		-e '/systemdsystemunitdir=.*echo.*sed.*libdir/s,^,#,g' \
@@ -101,15 +106,13 @@ src_prepare() {
 	sed -e "s:52.nut-usbups.rules:70-nut-usbups.rules:" \
 		-i scripts/udev/Makefile.am || die
 
-	rm -f ltmain.sh m4/lt* m4/libtool.m4
+	rm -f ltmain.sh m4/lt* m4/libtool.m4 || die
 
 	sed -i \
 		-e 's:@LIBSSL_LDFLAGS@:@LIBSSL_LIBS@:' \
 		lib/libupsclient{.pc,-config}.in || die #361685
 
-	use gui && epatch "${FILESDIR}"/NUT-Monitor-1.3-paths.patch
-
-	eapply_user
+	use gui && eapply "${FILESDIR}"/NUT-Monitor-1.3-paths.patch
 
 	eautoreconf
 }
@@ -162,7 +165,7 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install || die
 
-	find "${D}" -name '*.la' -exec rm -f {} +
+	find "${D}" -name '*.la' -delete || die
 
 	dodir /sbin
 	dosym "${EPREFIX}/usr/sbin/upsdrvctl" /sbin/upsdrvctl
@@ -186,7 +189,8 @@ src_install() {
 		insinto /usr/share/nut/pixmaps
 		doins scripts/python/app/pixmaps/*
 
-		sed -i -e 's/nut-monitor.png/nut-monitor/' -e 's/Application;//'  scripts/python/app/${PN}-monitor.desktop
+		sed -i -e 's/nut-monitor.png/nut-monitor/' -e 's/Application;//' \
+			scripts/python/app/${PN}-monitor.desktop || die
 
 		doicon scripts/python/app/${PN}-monitor.png
 		domenu scripts/python/app/${PN}-monitor.desktop
@@ -194,22 +198,24 @@ src_install() {
 
 	# this must be done after all of the install phases
 	for i in "${D}"/etc/nut/*.sample ; do
-		mv "${i}" "${i/.sample/}"
+		mv "${i}" "${i/.sample/}" || die
 	done
 
-	dodoc AUTHORS ChangeLog docs/*.txt MAINTAINERS NEWS README TODO UPGRADING || die
+	local DOCS=( AUTHORS ChangeLog docs/*.txt MAINTAINERS NEWS README TODO UPGRADING )
 
-	newdoc lib/README README.lib || die
-	newdoc "${FILESDIR}"/lighttpd_nut.conf-2.2.0 lighttpd_nut.conf || die
+	einstalldocs
+
+	newdoc lib/README README.lib
+	newdoc "${FILESDIR}"/lighttpd_nut.conf-2.2.0 lighttpd_nut.conf
 
 	docinto cables
-	dodoc docs/cables/* || die
+	dodoc docs/cables/*
 
-	newinitd "${FILESDIR}"/nut-2.6.5-init.d-upsd upsd || die
-	newinitd "${FILESDIR}"/nut-2.2.2-init.d-upsdrv upsdrv || die
-	newinitd "${FILESDIR}"/nut-2.6.5-init.d-upsmon upsmon || die
-	newinitd "${FILESDIR}"/nut-2.6.5-init.d-upslog upslog || die
-	newinitd "${FILESDIR}"/nut.powerfail.initd nut.powerfail || die
+	newinitd "${FILESDIR}"/nut-2.6.5-init.d-upsd upsd
+	newinitd "${FILESDIR}"/nut-2.2.2-init.d-upsdrv upsdrv
+	newinitd "${FILESDIR}"/nut-2.6.5-init.d-upsmon upsmon
+	newinitd "${FILESDIR}"/nut-2.6.5-init.d-upslog upslog
+	newinitd "${FILESDIR}"/nut.powerfail.initd nut.powerfail
 
 	keepdir /var/lib/nut
 
@@ -239,7 +245,8 @@ src_install() {
 		doins scripts/hotplug/nut-usbups.hotplug
 	fi
 
-	dobashcomp "${S}"/scripts/misc/nut.bash_completion
+	newbashcomp "${S}"/scripts/misc/nut.bash_completion upsc
+	bashcomp_alias upsc upscmd upsd upsdrvctl upsmon upsrw
 }
 
 pkg_postinst() {
