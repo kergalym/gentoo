@@ -1,11 +1,11 @@
-DEFINED_PHASES=compile install prepare setup test unpack
-DEPEND=>=dev-libs/glib-2.28 >=x11-libs/gtk+-3.4:3 !<dev-libs/girara-0.1.6 libnotify? ( >=x11-libs/libnotify-0.7 ) sys-devel/gettext virtual/pkgconfig test? ( !prefix? ( x11-base/xorg-server[xvfb] ) x11-apps/xhost ) dev-vcs/git
+DEFINED_PHASES=compile configure install test unpack
+DEPEND=>=dev-libs/glib-2.50 >=x11-libs/gtk+-3.20:3 libnotify? ( x11-libs/libnotify ) json? ( dev-libs/json-c ) dev-util/intltool virtual/pkgconfig >=dev-util/meson-0.45.1 >=dev-util/ninja-1.7.2 test? ( !prefix? ( x11-base/xorg-server[xvfb] ) x11-apps/xhost ) >=dev-vcs/git-1.8.2.1[curl]
 DESCRIPTION=UI library that focuses on simplicity and minimalism
-EAPI=5
+EAPI=6
 HOMEPAGE=https://pwmt.org/projects/girara/
-IUSE=libnotify static-libs test test
+IUSE=doc json libnotify test test
 LICENSE=ZLIB
-RDEPEND=>=dev-libs/glib-2.28 >=x11-libs/gtk+-3.4:3 !<dev-libs/girara-0.1.6 libnotify? ( >=x11-libs/libnotify-0.7 )
+RDEPEND=>=dev-libs/glib-2.50 >=x11-libs/gtk+-3.20:3 libnotify? ( x11-libs/libnotify ) json? ( dev-libs/json-c )
 SLOT=3
-_eclasses_=desktop	b1d22ac8bdd4679ab79c71aca235009d	epatch	a1bf4756dba418a7238f3be0cb010c54	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	6e6c2737b59a4b982de6fb3ecefd87f8	git-2	249c1a0962573f4ce2c28f0d5b6b35d4	ltprune	08f9e1d9ee0af8f5d9a7854efbcd8c0e	multilib	97f470f374f2e94ccab04a2fb21d811e	preserve-libs	ef207dc62baddfddfd39a164d9797648	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf	virtualx	401b718cc14d43a5a7fbe062c4851ba5
-_md5_=cd0d10ad6560e1146a2513396c141ca5
+_eclasses_=git-r3	918d6a744039c29af2cadc7317459765	meson	b953e9f7b0c7db44d8b115086b11ba16	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	cac3169468f893670dac3e7cb940e045	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	12114a2a9aab35b93efc037a196b3234	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512	virtualx	401b718cc14d43a5a7fbe062c4851ba5
+_md5_=b1e12176912308dd2cde015e568407e6

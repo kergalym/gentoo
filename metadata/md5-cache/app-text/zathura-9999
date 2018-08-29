@@ -1,11 +1,11 @@
-DEFINED_PHASES=compile configure install postinst postrm test unpack
-DEPEND=>=dev-libs/girara-0.2.7:3= >=dev-libs/glib-2.32:2= x11-libs/cairo:= >=x11-libs/gtk+-3.6:3 magic? ( sys-apps/file:= ) sqlite? ( dev-db/sqlite:3= ) synctex? ( >=app-text/texlive-core-2015 ) sys-devel/gettext virtual/pkgconfig test? ( dev-libs/check ) test? ( !prefix? ( x11-base/xorg-server[xvfb] ) x11-apps/xhost ) >=dev-vcs/git-1.8.2.1[curl]
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare test unpack
+DEPEND=>=x11-libs/gtk+-3.22:3 >=dev-libs/glib-2.50:2= >=dev-libs/girara-0.2.9:3= sqlite? ( dev-db/sqlite:3= ) magic? ( sys-apps/file:= ) synctex? ( >=app-text/texlive-core-2015 ) seccomp? ( sys-libs/libseccomp ) dev-util/intltool virtual/pkgconfig test? ( dev-libs/check ) doc? ( dev-python/sphinx dev-python/sphinx_rtd_theme app-doc/doxygen dev-python/breathe ) >=dev-util/meson-0.45.1 >=dev-util/ninja-1.7.2 test? ( !prefix? ( x11-base/xorg-server[xvfb] ) x11-apps/xhost ) dev-util/desktop-file-utils x11-misc/shared-mime-info >=dev-vcs/git-1.8.2.1[curl]
 DESCRIPTION=A highly customizable and functional document viewer
-EAPI=5
+EAPI=6
 HOMEPAGE=http://pwmt.org/projects/zathura/
-IUSE=+magic sqlite synctex test test
+IUSE=doc +magic +seccomp sqlite synctex test test
 LICENSE=ZLIB
-RDEPEND=>=dev-libs/girara-0.2.7:3= >=dev-libs/glib-2.32:2= x11-libs/cairo:= >=x11-libs/gtk+-3.6:3 magic? ( sys-apps/file:= ) sqlite? ( dev-db/sqlite:3= ) synctex? ( >=app-text/texlive-core-2015 )
+RDEPEND=>=x11-libs/gtk+-3.22:3 >=dev-libs/glib-2.50:2= >=dev-libs/girara-0.2.9:3= sqlite? ( dev-db/sqlite:3= ) magic? ( sys-apps/file:= ) synctex? ( >=app-text/texlive-core-2015 ) seccomp? ( sys-libs/libseccomp )
 SLOT=0
-_eclasses_=desktop	b1d22ac8bdd4679ab79c71aca235009d	epatch	a1bf4756dba418a7238f3be0cb010c54	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	6e6c2737b59a4b982de6fb3ecefd87f8	git-r3	918d6a744039c29af2cadc7317459765	ltprune	08f9e1d9ee0af8f5d9a7854efbcd8c0e	multilib	97f470f374f2e94ccab04a2fb21d811e	preserve-libs	ef207dc62baddfddfd39a164d9797648	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf	virtualx	401b718cc14d43a5a7fbe062c4851ba5	xdg-utils	89bb9f083a2590d9b447fd0b78a96186
-_md5_=4cacf5402117e8be231f5fd755815b48
+_eclasses_=git-r3	918d6a744039c29af2cadc7317459765	meson	b953e9f7b0c7db44d8b115086b11ba16	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	cac3169468f893670dac3e7cb940e045	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	12114a2a9aab35b93efc037a196b3234	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512	virtualx	401b718cc14d43a5a7fbe062c4851ba5	xdg	4939e61ae72d18779a8bdac386a7a07e	xdg-utils	89bb9f083a2590d9b447fd0b78a96186
+_md5_=365526db57b7c0e4b0e5754d7bcbe46d
