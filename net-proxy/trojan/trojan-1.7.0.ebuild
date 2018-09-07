@@ -6,7 +6,7 @@ EAPI=6
 inherit cmake-utils
 
 DESCRIPTION="An unidentifiable mechanism that helps you bypass GFW"
-HOMEPAGE="https://trojan-gfw.github.io/trojan/"
+HOMEPAGE="https://github.com/trojan-gfw/trojan"
 SRC_URI="https://github.com/trojan-gfw/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
