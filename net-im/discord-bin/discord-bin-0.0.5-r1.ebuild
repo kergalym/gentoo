@@ -4,6 +4,7 @@
 EAPI=6
 
 MY_PN=${PN/-bin/}
+MY_BIN="D${MY_PN/d/}"
 inherit eutils gnome2-utils unpacker
 
 DESCRIPTION="All-in-one voice and text chat for gamers"
@@ -50,9 +51,9 @@ S=${WORKDIR}
 RESTRICT="mirror bindist"
 
 QA_PREBUILT="
-	opt/discord/share/discord/Discord
-	opt/discord/share/discord/libnode.so
-	opt/discord/share/discord/libffmpeg.so
+	opt/discord/${MY_BIN}
+	opt/discord/libnode.so
+	opt/discord/libffmpeg.so
 "
 
 src_unpack() {
@@ -63,20 +64,20 @@ src_prepare() {
 	default
 
 	sed -i \
-		-e "s:/usr/share/discord/Discord:discord:g" \
+		-e "s:/usr/share/discord/Discord:/opt/${MY_PN}/${MY_BIN}:g" \
 		usr/share/${MY_PN}/${MY_PN}.desktop || die
 }
 
 src_install() {
-	insinto /opt/${MY_PN}
-	doins -r usr/.
-
-	fperms +x /opt/${MY_PN}/bin/${MY_PN}
-	dosym ../../opt/${MY_PN}/bin/${MY_PN} /usr/bin/${MY_PN}
-	dosym ../../../opt/${MY_PN}/share/applications/${MY_PN}.desktop \
-		/usr/share/applications/${MY_PN}.desktop
-	dosym ../../../opt/${MY_PN}/share/pixmaps/${MY_PN}.png \
-		/usr/share/pixmaps/${MY_PN}.png
+	insinto /usr/share
+	dodoc -r usr/share/doc/${MY_PN}/.
+	doins -r usr/share/lintian
+	insinto /opt
+	doins -r usr/share/${MY_PN}
+	fperms +x /opt/${MY_PN}/${MY_BIN}
+	dosym /opt/${MY_PN}/${MY_BIN} /usr/bin/${MY_PN}
+	dosym /opt/${MY_PN}/${MY_PN}.desktop /usr/share/applications/${MY_PN}.desktop
+	dosym /opt/${MY_PN}/${MY_PN}.png /usr/share/pixmaps/${MY_PN}.png
 }
 
 pkg_preinst() {
