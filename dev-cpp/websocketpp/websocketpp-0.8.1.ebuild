@@ -6,7 +6,7 @@ EAPI=6
 inherit cmake-utils
 
 DESCRIPTION="C++/Boost Asio based websocket client/server library"
-HOMEPAGE="http://www.zaphoyd.com/websocketpp"
+HOMEPAGE="https://www.zaphoyd.com/websocketpp"
 SRC_URI="https://github.com/zaphoyd/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="~amd64 ~arm ~arm64 ~ia64 ~ppc64 ~x86"
