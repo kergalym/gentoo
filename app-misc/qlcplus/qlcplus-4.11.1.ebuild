@@ -5,8 +5,8 @@ EAPI=6
 
 inherit qmake-utils udev vcs-snapshot virtualx xdg
 
-DESCRIPTION="QLC+ - Q Light Controller Plus to control DMX interfaces"
-HOMEPAGE="http://www.qlcplus.org/"
+DESCRIPTION="A software to control DMX or analog lighting systems"
+HOMEPAGE="https://www.qlcplus.org/"
 SRC_URI="https://github.com/mcallegari/${PN}/archive/QLC+_${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
