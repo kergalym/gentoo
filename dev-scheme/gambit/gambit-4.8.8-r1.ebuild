@@ -16,7 +16,10 @@ LICENSE="|| ( Apache-2.0 LGPL-2.1 )"
 SLOT="0"
 KEYWORDS="amd64 ~ppc64 x86 ~amd64-linux ~x86-linux ~x86-macos"
 
-RDEPEND="ssl? ( dev-libs/openssl:0 )"
+RDEPEND="ssl? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:0= )
+	)"
 DEPEND="
 	${RDEPEND}
 	emacs? ( virtual/emacs )
@@ -26,7 +29,7 @@ SITEFILE="50gambit-gentoo.el"
 
 S="${WORKDIR}/${MY_P}" #-devel
 
-IUSE="emacs ssl static"
+IUSE="emacs libressl ssl static"
 
 src_configure() {
 	econf $(use_enable !static shared) \
