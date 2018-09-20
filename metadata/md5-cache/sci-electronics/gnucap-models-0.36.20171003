@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile prepare
+DEPEND=~sci-electronics/gnucap-0.36.20171003
+DESCRIPTION=Models for the GNU Circuit Analysis Package
+EAPI=7
+HOMEPAGE=http://www.gnucap.org/
+KEYWORDS=~amd64 ~ppc ~x86
+LICENSE=GPL-3+
+RDEPEND=~sci-electronics/gnucap-0.36.20171003
+SLOT=0
+SRC_URI=http://git.savannah.gnu.org/cgit/gnucap/gnucap-models.git/snapshot/gnucap-models-20171003.tar.gz
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512
+_md5_=6cbd22f8eb6fef663d10872fdf388a8e

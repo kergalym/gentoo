@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure postinst prepare
+DEPEND=readline? ( sys-libs/readline:= )
+DESCRIPTION=GNUCap is the GNU Circuit Analysis Package
+EAPI=7
+HOMEPAGE=http://www.gnucap.org/
+IUSE=+models +readline
+KEYWORDS=~amd64 ~ppc ~x86
+LICENSE=GPL-3+
+PDEPEND=models? ( ~sci-electronics/gnucap-models-0.36.20171003 )
+RDEPEND=readline? ( sys-libs/readline:= )
+SLOT=0
+SRC_URI=http://git.savannah.gnu.org/cgit/gnucap.git/snapshot/gnucap-20171003.tar.gz
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512
+_md5_=bf4d5b562a09e496919c61d3aabbd78a
