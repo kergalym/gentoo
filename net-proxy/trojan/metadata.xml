@@ -21,7 +21,6 @@
 	</longdescription>
 	<use>
 		<flag name="mysql">build with MySQL support.</flag>
-		<flag name="systemd">install systemd service unconditionally.</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">trojan-gfw/trojan</remote-id>
