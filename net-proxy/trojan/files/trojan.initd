@@ -10,21 +10,12 @@ depend() {
 	need net
 }
 
-checkconfig() {
-	if [ ! -f ${TJ_CONFIG} ]; then
-		ewarn "${TJ_CONFIG} does not exist."
-	fi
-}
-
 start() {
-	checkconfig || return 1
-
-	ebegin "Starting Trojan"
-	ebegin "Log File: ${TJ_LOG}"
-	start-stop-daemon --start	\
-	-b -1 ${TJ_LOG} -2 ${TJ_LOG}	\
-	-m -p ${TJ_PIDFILE}		\
-	--exec /usr/bin/trojan  -- ${TJ_CONFIG}
+	ebegin "Starting Trojan, Log File: ${TJ_LOG}"
+	start-stop-daemon --start -b        \
+        -1 ${TJ_LOG} -2 ${TJ_LOG}           \
+        -m -p ${TJ_PIDFILE}                 \
+        --exec /usr/bin/trojan  -- ${TJ_CONFIG}
 	eend $?
 }
 
