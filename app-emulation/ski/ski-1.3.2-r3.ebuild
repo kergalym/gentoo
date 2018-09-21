@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=6
 
 inherit autotools
 
@@ -12,16 +12,12 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+gtk motif"
+IUSE="motif"
 
 RDEPEND="dev-libs/libltdl:0=
+	sys-libs/binutils-libs:0=
 	sys-libs/ncurses:0=
 	virtual/libelf
-	gtk? (
-		gnome-base/libglade:2.0
-		gnome-base/libgnomeui
-		x11-libs/gtk+:2
-	)
 	motif? ( x11-libs/motif:0= )"
 DEPEND="${RDEPEND}
 	sys-devel/bison
@@ -38,6 +34,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-uselib.patch #592226
 	"${FILESDIR}"/${P}-ncurses-config.patch
 	"${FILESDIR}"/${P}-prototypes.patch
+	"${FILESDIR}"/${P}-glibc-2.28.patch
 )
 
 src_prepare() {
@@ -51,6 +48,6 @@ src_prepare() {
 src_configure() {
 	econf \
 		--without-included-ltdl \
-		$(use_with gtk) \
+		--without-gtk \
 		$(use_with motif x11)
 }
