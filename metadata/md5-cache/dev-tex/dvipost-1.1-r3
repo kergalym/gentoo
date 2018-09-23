@@ -1,0 +1,12 @@
+BDEPEND=virtual/latex-base >=sys-apps/texinfo-4.2-r5
+DEFINED_PHASES=compile install postinst postrm
+DESCRIPTION=A post processor for dvi files, created by latex or tex
+EAPI=7
+HOMEPAGE=http://members.aon.at/fruehstueck/dvipost/index.html
+KEYWORDS=~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x64-macos ~x86-macos
+LICENSE=GPL-2
+RDEPEND=virtual/latex-base
+SLOT=0
+SRC_URI=http://efeu.cybertec.at/dist/dvipost-1.1.tar.gz
+_eclasses_=latex-package	17f13abe0de88340745e52e6b627aee7	multilib	97f470f374f2e94ccab04a2fb21d811e	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512
+_md5_=1e0b3828789a22bedb91dcd569b6d17e
