@@ -20,7 +20,7 @@ COMMON_DEPEND="
 	bluetooth? ( net-wireless/bluez:= )
 	curl? ( net-misc/curl:= )
 	dbi? ( >=dev-db/libdbi-0.8.3:= )
-	mysql? ( virtual/mysql:= )
+	mysql? ( || ( dev-db/mariadb-connector-c dev-db/mysql-connector-c ) )
 	postgres? ( dev-db/postgresql:= )
 	usb? ( virtual/libusb:1= )
 "
@@ -55,5 +55,5 @@ src_configure() {
 
 src_test() {
 	addwrite "/run/lock/LCK..bar"
-	LD_LIBRARY_PATH="${BUILD_DIR}/libgammu" cmake-utils_src_test -j1
+	MAKEOPTS+=" -j1" LD_LIBRARY_PATH="${BUILD_DIR}/libgammu" cmake-utils_src_test
 }
