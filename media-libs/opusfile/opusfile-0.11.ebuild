@@ -24,6 +24,8 @@ DEPEND="${RDEPEND}
 
 REQUIRED_USE="^^ ( fixed-point float )"
 
+PATCHES=( "${FILESDIR}/http-fix-compilation-with-LibreSSL.patch" )
+
 src_configure() {
 	local myeconfargs=(
 		--docdir=/usr/share/doc/${PF}
