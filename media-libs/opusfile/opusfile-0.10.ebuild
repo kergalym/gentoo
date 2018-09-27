@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -23,6 +23,8 @@ DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )"
 
 REQUIRED_USE="^^ ( fixed-point float )"
+
+PATCHES=( "${FILESDIR}/http-fix-compilation-with-LibreSSL.patch" )
 
 src_configure() {
 	local myeconfargs=(
