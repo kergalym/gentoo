@@ -1,0 +1,12 @@
+DEFINED_PHASES=setup
+DEPEND=|| ( dev-lang/python:3.7 dev-lang/python:3.6 dev-lang/python:3.5 dev-lang/python:3.4 )
+DESCRIPTION=ConnMan User Interface written with EFL & python
+EAPI=7
+HOMEPAGE=https://phab.enlightenment.org/w/projects/econnman/ https://www.enlightenment.org/
+KEYWORDS=~amd64 ~x86
+LICENSE=LGPL-3
+RDEPEND=|| ( dev-lang/python:3.7 dev-lang/python:3.6 dev-lang/python:3.5 dev-lang/python:3.4 ) dev-libs/efl[X,connman] || ( ( dev-lang/python:3.7 dev-python/python-efl[python_targets_python3_7(-),python_single_target_python3_7(+)] ) ( dev-lang/python:3.6 dev-python/python-efl[python_targets_python3_6(-),python_single_target_python3_6(+)] ) ( dev-lang/python:3.5 dev-python/python-efl[python_targets_python3_5(-),python_single_target_python3_5(+)] ) ( dev-lang/python:3.4 dev-python/python-efl[python_targets_python3_4(-),python_single_target_python3_4(+)] ) )
+SLOT=0
+SRC_URI=https://download.enlightenment.org/rel/apps/econnman/econnman-1.1.tar.xz
+_eclasses_=multilib	97f470f374f2e94ccab04a2fb21d811e	python-any-r1	4900ae970f827a22d33d41bd8b8f9ace	python-utils-r1	80c4202f2f51d22b08be7d3299e507af	toolchain-funcs	e4a9360924c5ce9f52e61342cde58512
+_md5_=0c83df4b7163499ec577112f63ea55a0
