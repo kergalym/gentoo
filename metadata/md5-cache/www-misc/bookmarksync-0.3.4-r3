@@ -1,0 +1,13 @@
+DEFINED_PHASES=install postinst prepare
+DESCRIPTION=bookmarksync synchronizes various browser bookmark files
+EAPI=7
+HOMEPAGE=https://sourceforge.net/projects/booksync/
+IUSE=perl
+KEYWORDS=~amd64 ppc x86
+LICENSE=GPL-2
+RDEPEND=perl? ( dev-lang/perl )
+RESTRICT=mirror
+SLOT=0
+SRC_URI=mirror://sourceforge/booksync/bookmarksync-0.3.4.tar.gz
+_eclasses_=multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	f164325a2cdb5b3ea39311d483988861
+_md5_=c2a144573e4bacccbc1a2b06833447d6
