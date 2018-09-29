@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile install prepare
+DEPEND=gmp? ( dev-libs/gmp )
+DESCRIPTION=self-contained ANSI C implementation of the reverse search algorithm
+EAPI=4
+HOMEPAGE=http://cgm.cs.mcgill.ca/~avis/C/lrs.html
+IUSE=gmp
+KEYWORDS=amd64 x86
+LICENSE=GPL-2
+RDEPEND=gmp? ( dev-libs/gmp )
+SLOT=0
+SRC_URI=http://cgm.cs.mcgill.ca/~avis/C/lrslib/lrslib-042c.tar.gz
+_eclasses_=multilib	b2f01ad412baf81650c23fcf0975fa33	toolchain-funcs	f164325a2cdb5b3ea39311d483988861
+_md5_=b7f1e4495b2a74fd242e94b40205a4fb
